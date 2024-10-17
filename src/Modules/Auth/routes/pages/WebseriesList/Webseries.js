@@ -3,6 +3,7 @@ import MoviesProps from "../../../../../Components/MoviesProps"; // Adjust the p
 import Searchbar from "../../../../../Components/Searchbar"; // Adjust the path as necessary
 import { CircularProgress, Box, Grid, Card, CardMedia, CardContent, Typography, Button } from "@mui/material";
 import PopularMovies from "../../../../../Components/PopularMovies"; // You can rename this to something more suitable for web series
+import { useNavigate } from "react-router-dom";
 
 const posterImages = [
   "https://image.tmdb.org/t/p/w500/mzgxjQFLYPk73bCYeGFWOAmKqV0.jpg",
@@ -25,6 +26,7 @@ const posterImages = [
 ];
 
 const Webseries = () => {
+  const navigate = useNavigate()
   const [movies, setMovies] = useState([]);
   const [yourMoviesArray, setYourMoviesArray] = useState([]);
   const [isSearching, setIsSearching] = useState(false); // Track if searching
@@ -44,6 +46,12 @@ const Webseries = () => {
   useEffect(() => {
     getPopularWebseries();
   }, []);
+
+    const handleCardClick = (webseries) => {
+      const movieName = encodeURIComponent(webseries.name); // Encode movie name for URL
+      navigate(`/moviebookingform/?name=${movieName}`); // Navigate with search params
+      console.log(movieName);
+    }
 
   return (
     <>
@@ -85,7 +93,7 @@ const Webseries = () => {
                     <Typography gutterBottom variant="h5" component="div">
                       {movie.name}   
                     </Typography>
-                    <Button variant="contained" color="primary">
+                    <Button onClick={()=>handleCardClick(movie)} variant="contained" color="primary">
                       Book Now {/* Book Now button */}
                     </Button>
                   </CardContent>

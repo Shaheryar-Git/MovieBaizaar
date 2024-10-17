@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { Box, Button, Grid, TextField, Typography, Container, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio, MenuItem, Select, InputLabel } from '@mui/material';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 const MovieBookingForm = () => {
   // State to handle form values and calculated total price
+  const navigate = useNavigate()
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search); // Get search params from URL
   const movieName = queryParams.get("name");
@@ -36,28 +37,39 @@ const MovieBookingForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    // Simple validation using if condition
+    if (!formData.name || !formData.email) {
+      alert('Please fill in all required fields.');
+      return;
+    }
+
     console.log('Form Data:', formData);
     console.log('Total Price:', calculateTotalPrice());
-    // Add form submission logic here
+
+    // Navigate to movies page on successful submission
+    navigate('/movies');
   };
+
+ 
 
   return (
     <Container maxWidth="md" sx={{ mt: 4, px: 2 }}>
       <Typography variant="h4" gutterBottom align="center" sx={{ color: '#3f51b5', fontWeight: 'bold' }}>
         Movie Booking Form
       </Typography>
-      <Box component="form" onSubmit={handleSubmit} sx={{ mt: 2, backgroundColor: '#f0f4f8', padding: 4, borderRadius: 2 }}>
+      <Box component="form" sx={{ mt: 2, backgroundColor: '#f0f4f8', padding: 4, borderRadius: 2 }}>
         <Grid container spacing={3}>
           {/* Name Field */}
           <Grid item xs={12} sm={6}>
             <TextField
+              required
               fullWidth
               label="Name"
               variant="outlined"
               name="name"
               value={formData.name}
               onChange={handleChange}
-              required
               sx={{ backgroundColor: '#fff' }}
             />
           </Grid>
@@ -133,10 +145,12 @@ const MovieBookingForm = () => {
           </Grid>
         </Grid>
         <Box sx={{ mt: 3, display: 'flex', justifyContent: 'center' }}>
-          <Button
+       <Link>
+       <Button
             variant="contained"
             color="primary"
             type="submit"
+            onClick={handleSubmit}
             sx={{
               backgroundColor: '#3f51b5',
               '&:hover': {
@@ -148,6 +162,7 @@ const MovieBookingForm = () => {
           >
             Book Now
           </Button>
+       </Link>
         </Box>
       </Box>
     </Container>

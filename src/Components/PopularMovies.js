@@ -70,7 +70,7 @@ const PopularMovies = ({ movies = [] }) => {
                     {movie.description} {/* Display the movie description */}
                   </Typography>
                   <Button  onClick={() => handleCardClick(movie)} variant="contained" color="primary">
-                    Book Now {/* Book Now button */}
+                    Book Now 
                   </Button>
                 </CardContent>
               </Card>
